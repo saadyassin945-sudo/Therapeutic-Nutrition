@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Therapeutic Nutrition</title>
+    <style>
+        /* ===== BASE ===== */
+        :root {
+            --bg1: #0a0e1a;
+            --bg2: #141e33;
+            --primary: #00d4ff;
+            --primary-dark: #0099cc;
+            --accent: #facc15;
+            --danger: #f87171;
+            --success: #34d399;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text: #e8edf5;
+            --muted: #94a3b8;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            --glow: 0 0 30px rgba(0, 212, 255, 0.06);
+            --radius: 16px;
+            --header-bg: rgba(255, 255, 255, 0.03);
+            --header-border: rgba(255, 255, 255, 0.04);
+            --footer-border: rgba(255, 255, 255, 0.03);
+            --table-header-bg: rgba(0, 212, 255, 0.08);
+            --card-title-bg: rgba(0, 212, 255, 0.06);
+            --highlight-bg: #facc15;
+            --highlight-text: #0f172a;
+        }
+
+        [data-theme="light"] {
+            --bg1: #f0f4f8;
+            --bg2: #e2e8f0;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(0, 0, 0, 0.1);
+            --text: #0f172a;
+            --muted: #475569;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --glow: 0 0 30px rgba(0, 212, 255, 0.02);
+            --header-bg: rgba(255, 255, 255, 0.7);
+            --header-border: rgba(0, 0, 0, 0.04);
+            --footer-border: rgba(0, 0, 0, 0.04);
+            --table-header-bg: rgba(0, 212, 255, 0.12);
+            --card-title-bg: rgba(0, 212, 255, 0.08);
+            --highlight-bg: #facc15;
+            --highlight-text: #0f172a;
+        }
+
+        .highlight-text {
+            background-color: var(--highlight-bg);
+            color: var(--highlight-text);
+            padding: 0 4px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, 'Cairo', sans-serif;
+            background: linear-gradient(135deg, var(--bg1), var(--bg2), #0f1a2b);
+            min-height: 100vh;
+            color: var(--text);
+            padding: 16px 8px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            transition: background 0.4s ease;
+        }
+        .app { max-width: 1100px; width: 100%; }
+
+        /* ===== HEADER ===== */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 16px 16px;
+            background: var(--header-bg);
+            border-radius: 20px;
+            border: 1px solid var(--header-border);
+            backdrop-filter: blur(4px);
+        }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 4px 25px rgba(0, 212, 255, 0.15);
+            transition: color 0.3s ease;
+        }
+        [data-theme="light"] .header h1 { color: #0f172a; text-shadow: none; }
+        .header h1 .highlight {
+            background: linear-gradient(135deg, var(--primary), #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header .sub {
+            color: var(--primary);
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            font-size: 0.8rem;
+            margin-top: 2px;
+        }
+        .header .creator {
+            color: var(--muted);
+            font-size: 0.75rem;
+            margin-top: 4px;
+        }
+        .header .creator .name { color: var(--text); font-weight: 700; }
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+        }
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            background: rgba(0, 212, 255, 0.08);
+            transform: scale(1.05);
+        }
+        [data-theme="light"] .theme-toggle {
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+
+        /* ===== TABS ===== */
+        .tabs-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+            justify-content: center;
+        }
+        .tab-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .tab-btn:hover { border-color: var(--primary); color: var(--text); }
+        .tab-btn.active {
+            border-color: var(--primary);
+            background: rgba(0, 212, 255, 0.08);
+            color: var(--primary);
+        }
+        .tab-btn .en { display: block; font-size: 0.7rem; }
+        .tab-btn .ar { display: block; font-size: 0.55rem; opacity: 0.7; }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow), var(--glow);
+            padding: 18px 14px;
+            margin-bottom: 16px;
+            transition: background 0.3s ease, border 0.3s ease;
+            display: none;
+        }
+        .card.active { display: block; }
+        .card h2 {
+            font-size: 1.3rem;
+            color: var(--text);
+            border-right: 4px solid var(--primary);
+            padding-right: 12px;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        /* ===== SLIDES ===== */
+        .slide-container {
+            position: relative;
+            min-height: 300px;
+        }
+        .slide {
+            display: none;
+            animation: fadeSlide 0.3s ease;
+        }
+        .slide.active { display: block; }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateX(15px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .slide-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        .slide-progress .bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            margin: 0 12px;
+            overflow: hidden;
+        }
+        .slide-progress .bar .fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #818cf8);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        .slide-progress .count {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .slide-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        .slide-nav .btn-nav {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 80px;
+            text-align: center;
+        }
+        .slide-nav .btn-nav:hover:not(:disabled) {
+            background: rgba(0, 212, 255, 0.08);
+            border-color: var(--primary);
+        }
+        .slide-nav .btn-nav:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+        .slide-nav .btn-nav.primary {
+            background: var(--primary);
+            color: #0a0e1a;
+            border-color: var(--primary);
+        }
+        .slide-nav .btn-nav.primary:hover:not(:disabled) {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        [data-theme="light"] .slide-nav .btn-nav {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+
+        /* ===== CARDS GRID ===== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 14px;
+            margin-bottom: 8px;
+        }
+
+        .topic-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 14px 14px 12px;
+            transition: border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .topic-card:hover { border-color: var(--primary); }
+
+        .topic-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--card-title-bg);
+        }
+        .topic-card .card-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--primary);
+            line-height: 1.4;
+            flex: 1;
+        }
+        .topic-card .card-title-ar {
+            color: var(--muted);
+            font-weight: 400;
+            display: none;
+        }
+        .topic-card .card-title-ar.show { display: inline; }
+        .topic-card .card-title-en { display: inline; }
+        .topic-card .card-title-en.hidden { display: none; }
+
+        .topic-card .translate-btn {
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 3px 12px;
+            font-size: 0.6rem;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+            margin-right: 8px;
+        }
+        .topic-card .translate-btn:hover {
+            background: rgba(0, 212, 255, 0.18);
+            border-color: var(--primary);
+        }
+        .topic-card .translate-btn.active {
+            background: rgba(0, 212, 255, 0.18);
+            border-color: var(--primary);
+        }
+
+        .topic-card .card-items {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+        }
+        .topic-card .card-items li {
+            padding: 4px 0 4px 0;
+            line-height: 1.6;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        [data-theme="light"] .topic-card .card-items li {
+            border-bottom-color: rgba(0, 0, 0, 0.04);
+        }
+        .topic-card .card-items li:last-child { border-bottom: none; }
+
+        .topic-card .item-en {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            display: block;
+            text-align: left;
+            direction: ltr;
+        }
+        .topic-card .item-ar {
+            color: var(--muted);
+            font-size: 0.82rem;
+            line-height: 1.6;
+            text-align: right;
+            direction: rtl;
+            display: none;
+            margin-top: 2px;
+            padding-right: 8px;
+            border-right: 2px solid rgba(0, 212, 255, 0.2);
+        }
+        .topic-card .item-ar.show { display: block; }
+
+        .topic-card .card-items.numbered {
+            counter-reset: item-counter;
+        }
+        .topic-card .card-items.numbered li {
+            padding-right: 28px;
+            position: relative;
+            counter-increment: item-counter;
+        }
+        .topic-card .card-items.numbered li::before {
+            content: counter(item-counter) "-";
+            position: absolute;
+            right: 2px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        /* ===== TABLES ===== */
+        .info-table-wrap {
+            overflow-x: auto;
+            margin: 12px 0;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            grid-column: 1 / -1;
+        }
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            min-width: 500px;
+        }
+        .info-table th {
+            background: var(--table-header-bg);
+            color: var(--primary);
+            padding: 8px 6px;
+            text-align: center;
+            border-bottom: 2px solid var(--primary);
+            font-weight: 700;
+        }
+        .info-table td {
+            padding: 8px 6px;
+            border-bottom: 1px solid var(--card-border);
+            vertical-align: top;
+            line-height: 1.5;
+        }
+        .info-table tr:last-child td { border-bottom: none; }
+        .info-table .ar-text {
+            border-right: none;
+            padding-right: 0;
+            margin-top: 2px;
+            font-size: 0.78rem;
+            display: block;
+            color: var(--muted);
+        }
+        .info-table .en-text { font-size: 0.85rem; }
+
+        @media (max-width: 600px) {
+            .cards-grid { grid-template-columns: 1fr; }
+            .info-table { font-size: 0.72rem; min-width: 350px; }
+            .topic-card .card-title { font-size: 0.85rem; }
+        }
+
+        .footer-credit {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.12);
+            font-size: 0.7rem;
+            margin-top: 24px;
+            padding: 10px 0;
+            border-top: 1px solid var(--footer-border);
+        }
+        [data-theme="light"] .footer-credit { color: rgba(0, 0, 0, 0.2); }
+        .footer-credit .name { color: var(--primary); font-weight: 600; }
+
+        @media (max-width: 768px) {
+            body { padding: 8px 4px; }
+            .header h1 { font-size: 1.4rem; }
+            .tab-btn { padding: 6px 10px; font-size: 0.6rem; }
+            .card { padding: 14px 10px; }
+            .card h2 { font-size: 1.1rem; }
+        }
+
+        .topic-card.full-width { grid-column: 1 / -1; }
+    </style>
+</head>
+<body>
+
+    <div class="app">
+        <div class="header">
+            <div class="header-top">
+                <div>
+                    <h1><span class="highlight">Therapeutic Nutrition</span></h1>
+                    <div class="sub"></div>
+                    <div class="creator">Created by <span class="name">MR. YASSIN THARWAT</span></div>
+                </div>
+                <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="تبديل الوضع">☀</button>
+            </div>
+        </div>
+
+        <div class="tabs-wrap" id="tabsContainer"></div>
+        <div id="sectionsContainer"></div>
+        <div class="footer-credit">
+            Created by <span class="name">MR. YASSIN THARWAT</span>
+        </div>
+    </div>
+
+    <script>
+        // ================================================================
+        //  THEME
+        // ================================================================
+        let currentTheme = localStorage.getItem('theme') || 'dark';
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            document.getElementById('themeToggle').textContent = theme === 'light' ? '☾' : '☀';
+            localStorage.setItem('theme', theme);
+            currentTheme = theme;
+        }
+        function toggleTheme() { applyTheme(currentTheme === 'dark' ? 'light' : 'dark'); }
+
+        // ================================================================
+        //  SLIDE SYSTEM
+        // ================================================================
+        let slideState = {};
+
+        function initSlideState(partId, totalSlides) {
+            slideState[partId] = { current: 0, total: totalSlides };
+        }
+
+        function renderSlide(partId, containerId) {
+            const state = slideState[partId];
+            if (!state) return;
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const slides = container.querySelectorAll('.slide');
+            slides.forEach((s, i) => s.classList.toggle('active', i === state.current));
+            const progressBar = container.querySelector('.slide-progress .fill');
+            const countSpan = container.querySelector('.slide-progress .count');
+            if (progressBar) progressBar.style.width = ((state.current + 1) / state.total * 100) + '%';
+            if (countSpan) countSpan.textContent = `${state.current + 1} / ${state.total}`;
+            const prevBtn = container.querySelector('.btn-nav.prev');
+            const nextBtn = container.querySelector('.btn-nav.next');
+            if (prevBtn) prevBtn.disabled = state.current === 0;
+            if (nextBtn) nextBtn.disabled = state.current === state.total - 1;
+        }
+
+        function goToSlide(partId, containerId, index) {
+            const state = slideState[partId];
+            if (!state) return;
+            if (index < 0) index = 0;
+            if (index >= state.total) index = state.total - 1;
+            state.current = index;
+            renderSlide(partId, containerId);
+        }
+
+        // ================================================================
+        //  HELPERS
+        // ================================================================
+        function createSlideHTML(title, cardsHTML) {
+            return `
+                <div class="slide">
+                    <h3 style="font-size:1.1rem; color:var(--primary); margin-bottom:12px; border-right:3px solid var(--primary); padding-right:10px;">${title}</h3>
+                    <div class="cards-grid">${cardsHTML}</div>
+                </div>
+            `;
+        }
+
+        function card(title, items, arTitle = '') {
+            const cardId = 'c' + Math.random().toString(36).substr(2, 8);
+            const itemsHTML = items.map((item) => {
+                const en = item.en || item;
+                const ar = item.ar || '';
+                return `<li><span class="item-en">${en}</span><span class="item-ar">${ar}</span></li>`;
+            }).join('');
+            const listClass = items.some(i => i.en && i.en.match(/^\d/)) ? 'card-items numbered' : 'card-items simple';
+            return `
+                <div class="topic-card" data-card="${cardId}">
+                    <div class="card-header">
+                        <span class="card-title">
+                            <span class="card-title-en">${title}</span>
+                            <span class="card-title-ar" id="${cardId}-title-ar">${arTitle}</span>
+                        </span>
+                        <button class="translate-btn" data-card="${cardId}" onclick="toggleCardTranslation('${cardId}')">ترجمة</button>
+                    </div>
+                    <ul class="${listClass}">${itemsHTML}</ul>
+                </div>
+            `;
+        }
+
+        function tableCard(title, tableHTML, arTitle = '') {
+            return `
+                <div class="topic-card full-width">
+                    <div class="card-header">
+                        <span class="card-title">
+                            <span class="card-title-en">${title}</span>
+                            <span class="card-title-ar" style="display:block;">${arTitle}</span>
+                        </span>
+                    </div>
+                    <div class="info-table-wrap">${tableHTML}</div>
+                </div>
+            `;
+        }
+
+        function cell(en, ar) {
+            return `<span class="en-text">${en}</span><span class="ar-text">${ar}</span>`;
+        }
+
+        function toggleCardTranslation(cardId) {
+            const card = document.querySelector(`.topic-card[data-card="${cardId}"]`);
+            if (!card) return;
+            const arItems = card.querySelectorAll('.item-ar');
+            const titleAr = document.getElementById(`${cardId}-title-ar`);
+            const titleEn = card.querySelector('.card-title-en');
+            const btn = card.querySelector('.translate-btn');
+            const isVisible = arItems.length > 0 && arItems[0].classList.contains('show');
+            arItems.forEach(el => el.classList.toggle('show'));
+            if (titleAr) {
+                titleAr.classList.toggle('show');
+                if (titleEn) titleEn.classList.toggle('hidden');
+            }
+            if (btn) {
+                btn.textContent = isVisible ? 'ترجمة' : 'إخفاء';
+                btn.classList.toggle('active');
+            }
+        }
+
+        // ================================================================
+        //  DATA: THERAPEUTIC NUTRITION (Ordered per Lecture PDF)
+        // ================================================================
+        const nutritionData = {
+            titleEn: 'Lecture 1',
+            titleAr: 'المحاضرة الأولى',
+            slides: [
+                // 1. Introduction & Definition of Terms
+                {
+                    title: 'Introduction & Definition of Terms · مقدمة وتعريف المصطلحات',
+                    cards: [
+                        card('Introduction · مقدمة', [
+                            { en: 'In ancient times, both medicine and food were used together for healing diseases, as nutrition was seen as a <span class="highlight-text">vital part of therapy</span>.', ar: 'في العصور القديمة، كان يُستخدم الدواء والطعام معاً لشفاء الأمراض، حيث كانت التغذية تُعتبر <span class="highlight-text">جزءاً حيوياً من العلاج</span>.' },
+                            { en: 'Over time, with changing lifestyles, food itself became a cause of many health problems.', ar: 'مع مرور الوقت وتغير أنماط الحياة، أصبح الطعام نفسه سبباً للعديد من المشاكل الصحية.' },
+                            { en: '<span class="highlight-text">Therapeutic nutrition</span> involves modifying the normal diet to meet the nutritional needs of patients based on their condition.', ar: '<span class="highlight-text">التغذية العلاجية</span> تتضمن تعديل النظام الغذائي العادي لتلبية الاحتياجات الغذائية للمرضى بناءً على حالتهم.' },
+                            { en: 'It can be applied from diagnosis through pre- and post-surgery stages to recovery at home.', ar: 'يمكن تطبيقها من مرحلة التشخيص ومروراً بمرحلتي ما قبل وبعد الجراحة وحتى التعافي في المنزل.' }
+                        ], 'مقدمة:'),
+                        card('Nutrition · التغذية', [
+                            { en: 'It is the <span class="highlight-text">intake, digestion and absorption</span> of foods to provide energy needed for different body functions.', ar: 'هي <span class="highlight-text">تناول وهضم وامتصاص</span> الأطعمة لتوفير الطاقة اللازمة لوظائف الجسم المختلفة.' },
+                            { en: 'To maintain optimal growth and development and adequate immunity and to avoid disease states of malnutrition.', ar: 'للحفاظ على النمو والتطور الأمثل والمناعة الكافية وتجنب حالات سوء التغذية المرضية.' }
+                        ], 'التغذية:'),
+                        card('Nutrients · العناصر الغذائية', [
+                            { en: 'Are the <span class="highlight-text">constituents in food</span> that must be supplied to the body in suitable amounts.', ar: 'هي <span class="highlight-text">المكونات الموجودة في الطعام</span> التي يجب توفيرها للجسم بكميات مناسبة.' }
+                        ], 'العناصر الغذائية:')
+                    ]
+                },
+                // 2. Main Nutrients: Macronutrients
+                {
+                    title: 'Main Nutrients: Macronutrients · العناصر الغذائية الكبرى',
+                    cards: [
+                        card('Macronutrients · العناصر الغذائية الكبرى', [
+                            { en: 'These are nutrients required by the body in <span class="highlight-text">large amounts</span> because they provide energy and form the structural components of cells and tissues.', ar: 'هي عناصر غذائية يحتاجها الجسم <span class="highlight-text">بكميات كبيرة</span> لأنها توفر الطاقة وتشكل المكونات الهيكلية للخلايا والأنسجة.' },
+                            { en: 'Include: <span class="highlight-text">Carbohydrates, Proteins, Fats</span>.', ar: 'تشمل: <span class="highlight-text">الكربوهيدرات، البروتينات، الدهون</span>.' }
+                        ], 'العناصر الغذائية الكبرى:'),
+                        card('Carbohydrates · الكربوهيدرات', [
+                            { en: 'Supply our bodies with the <span class="highlight-text">main source of energy</span> and are important for cell structure.', ar: 'تزود أجسامنا <span class="highlight-text">بالمصدر الرئيسي للطاقة</span> وهي مهمة لبنية الخلية.' },
+                            { en: 'Best sources: whole grains, vegetables and fruits, pasta and potatoes, beans.', ar: 'أفضل المصادر: الحبوب الكاملة، الخضروات والفواكه، المعكرونة والبطاطس، الفاصوليا.' },
+                            { en: 'Yield: <span class="highlight-text">4 calories/gram</span>.', ar: 'تنتج: <span class="highlight-text">4 سعرات حرارية/جرام</span>.' }
+                        ], 'الكربوهيدرات:'),
+                        card('Proteins · البروتينات', [
+                            { en: 'Important for the <span class="highlight-text">building and repair</span> of body tissues, and the synthesis of plasma proteins, antibodies, hemoglobin, enzymes and hormones.', ar: 'مهمة <span class="highlight-text">لبناء وإصلاح</span> أنسجة الجسم، وتخليق بروتينات البلازما والأجسام المضادة والهيموجلوبين والإنزيمات والهرمونات.' },
+                            { en: 'Yield: <span class="highlight-text">4 calories/gram</span>.', ar: 'تنتج: <span class="highlight-text">4 سعرات حرارية/جرام</span>.' }
+                        ], 'البروتينات:'),
+                        card('Fats · الدهون', [
+                            { en: 'An important <span class="highlight-text">rich source of energy</span>, help absorption of some vitamins (A, D, E and K) and are essential for the structure of cells particularly in the nervous system.', ar: '<span class="highlight-text">مصدر غني مهم للطاقة</span>، يساعد في امتصاص بعض الفيتامينات (A, D, E, K) وهو ضروري لبنية الخلايا خاصة في الجهاز العصبي.' },
+                            { en: 'Yield: <span class="highlight-text">9 calories/gram</span>.', ar: 'تنتج: <span class="highlight-text">9 سعرات حرارية/جرام</span>.' }
+                        ], 'الدهون:')
+                    ]
+                },
+                // 3. Micronutrients: Vitamins
+                {
+                    title: 'Micronutrients: Vitamins · الفيتامينات',
+                    cards: [
+                        card('Micronutrients · العناصر الغذائية الدقيقة', [
+                            { en: 'These are nutrients required by the body in <span class="highlight-text">small amounts</span>, but they are vital for metabolism, growth, and disease prevention.', ar: 'هي عناصر غذائية يحتاجها الجسم <span class="highlight-text">بكميات صغيرة</span>، لكنها حيوية لعملية التمثيل الغذائي والنمو والوقاية من الأمراض.' },
+                            { en: 'Include: <span class="highlight-text">Vitamins, Minerals, Water</span>.', ar: 'تشمل: <span class="highlight-text">الفيتامينات، المعادن، الماء</span>.' }
+                        ], 'العناصر الغذائية الدقيقة:'),
+                        card('Vitamins · الفيتامينات', [
+                            { en: 'Organic compounds that the body needs in <span class="highlight-text">small amounts</span> to stay healthy and perform vital functions.', ar: 'مركبات عضوية يحتاجها الجسم <span class="highlight-text">بكميات صغيرة</span> للبقاء بصحة جيدة وأداء الوظائف الحيوية.' },
+                            { en: 'The body <span class="highlight-text">cannot make vitamins</span>, so we have to obtain them from our diet.', ar: 'الجسم <span class="highlight-text">لا يستطيع تصنيع الفيتامينات</span>، لذلك يجب الحصول عليها من النظام الغذائي.' }
+                        ], 'الفيتامينات:'),
+                        card('Fat-soluble Vitamins · الفيتامينات الذائبة في الدهون', [
+                            { en: 'Dissolve in fats and can be <span class="highlight-text">stored</span> in the body\'s fatty tissues and liver.', ar: 'تذوب في الدهون ويمكن <span class="highlight-text">تخزينها</span> في الأنسجة الدهنية والكبد.' },
+                            { en: '<span class="highlight-text">A, D, E, & K</span> are all fat soluble.', ar: '<span class="highlight-text">A, D, E, K</span> كلها ذائبة في الدهون.' }
+                        ], 'الفيتامينات الذائبة في الدهون:'),
+                        card('Water-soluble Vitamins · الفيتامينات الذائبة في الماء', [
+                            { en: 'Dissolve in water and are <span class="highlight-text">not stored</span> in the body, travel through the bloodstream and any excess is excreted in urine, so they must be taken <span class="highlight-text">daily</span>.', ar: 'تذوب في الماء و<span class="highlight-text">لا يتم تخزينها</span> في الجسم، تنتقل عبر مجرى الدم ويتم إخراج أي فائض في البول، لذلك يجب تناولها <span class="highlight-text">يومياً</span>.' },
+                            { en: 'As <span class="highlight-text">C</span> and the <span class="highlight-text">B-complex</span> vitamins.', ar: 'مثل <span class="highlight-text">C</span> وفيتامينات <span class="highlight-text">B المركب</span>.' },
+                            { en: 'Need to be <span class="highlight-text">replaced more often</span>.', ar: 'تحتاج إلى <span class="highlight-text">استبدال أكثر تكراراً</span>.' }
+                        ], 'الفيتامينات الذائبة في الماء:')
+                    ]
+                },
+                // 4. Specific Vitamins: A, D, E, K
+                {
+                    title: 'Specific Vitamins: A, D, E, K · فيتامينات محددة',
+                    cards: [
+                        card('Vitamin A · فيتامين أ', [
+                            { en: 'Needed for <span class="highlight-text">strong bones, good vision and healthy skin</span>.', ar: 'مطلوب <span class="highlight-text">لعظام قوية، رؤية جيدة وبشرة صحية</span>.' },
+                            { en: 'Sources: <span class="highlight-text">Milk, egg, liver, dark green vegetables, yellow fruits</span> e.g. carrots.', ar: 'المصادر: <span class="highlight-text">الحليب، البيض، الكبد، الخضروات الورقية الداكنة، الفواكه الصفراء</span> مثل الجزر.' }
+                        ], 'فيتامين أ:'),
+                        card('Vitamin D · فيتامين د', [
+                            { en: 'Regulates <span class="highlight-text">absorption and deposition of calcium and phosphorus</span> in bones.', ar: 'ينظم <span class="highlight-text">امتصاص وترسب الكالسيوم والفوسفور</span> في العظام.' },
+                            { en: 'With <span class="highlight-text">direct sunlight</span> on the skin, the body can manufacture its own vitamin D.', ar: 'مع <span class="highlight-text">أشعة الشمس المباشرة</span> على الجلد، يمكن للجسم تصنيع فيتامين د الخاص به.' },
+                            { en: 'Infants and young children often need a <span class="highlight-text">vitamin D supplement</span>.', ar: 'الرضع والأطفال الصغار غالباً ما يحتاجون إلى <span class="highlight-text">مكمل فيتامين د</span>.' },
+                            { en: 'Sources: <span class="highlight-text">Fortified milk, fish, liver, egg yolk, butter</span>.', ar: 'المصادر: <span class="highlight-text">الحليب المدعم، الأسماك، الكبد، صفار البيض، الزبدة</span>.' }
+                        ], 'فيتامين د:'),
+                        card('Vitamin E · فيتامين هـ', [
+                            { en: 'Helps to <span class="highlight-text">protect Vitamin A and red blood cells</span>.', ar: 'يساعد في <span class="highlight-text">حماية فيتامين أ وخلايا الدم الحمراء</span>.' },
+                            { en: 'Sources: <span class="highlight-text">plant-based oils</span> (Sunflower and soybean oil), nuts, seeds, fruits, and vegetables.', ar: 'المصادر: <span class="highlight-text">الزيوت النباتية</span> (زيت دوار الشمس وزيت فول الصويا)، والمكسرات، والبذور، والفواكه، والخضروات.' }
+                        ], 'فيتامين هـ:'),
+                        card('Vitamin K · فيتامين ك', [
+                            { en: 'Is one vitamin that is made <span class="highlight-text">within the human body by bacteria</span> that live in the intestinal tract.', ar: 'هو فيتامين يتم تصنيعه <span class="highlight-text">داخل جسم الإنسان بواسطة البكتيريا</span> التي تعيش في القناة الهضمية.' },
+                            { en: 'Sources: Small amounts are found as well in the <span class="highlight-text">green leaves of spinach, kale and broccoli</span>.', ar: 'المصادر: توجد كميات صغيرة أيضاً في <span class="highlight-text">الأوراق الخضراء للسبانخ واللفت والبروكلي</span>.' }
+                        ], 'فيتامين ك:')
+                    ]
+                },
+                // 5. Minerals & Water
+                {
+                    title: 'Minerals & Water · المعادن والماء',
+                    cards: [
+                        card('Minerals · المعادن', [
+                            { en: 'Many minerals are vital to the proper function of the body and must be taken in relatively <span class="highlight-text">large amounts</span> (such as calcium, potassium, and iron).', ar: 'العديد من المعادن حيوية للوظيفة الصحيحة للجسم ويجب تناولها بكميات <span class="highlight-text">كبيرة نسبياً</span> (مثل الكالسيوم والبوتاسيوم والحديد).' },
+                            { en: 'Others, like <span class="highlight-text">trace minerals</span> (zinc, and copper), are only needed in <span class="highlight-text">small amounts</span> to maintain good health.', ar: 'البعض الآخر، مثل <span class="highlight-text">المعادن النادرة</span> (الزنك والنحاس)، مطلوب فقط بكميات <span class="highlight-text">صغيرة</span> للحفاظ على صحة جيدة.' }
+                        ], 'المعادن:'),
+                        card('Water · الماء', [
+                            { en: 'It constitutes <span class="highlight-text">75% of body weight in infants</span> and <span class="highlight-text">60% in adults</span> and it is essential for all biological activities.', ar: 'يشكل <span class="highlight-text">75% من وزن الجسم عند الرضع</span> و<span class="highlight-text">60% عند البالغين</span> وهو ضروري لجميع الأنشطة البيولوجية.' }
+                        ], 'الماء:')
+                    ]
+                },
+                // 6. Definition of Therapeutic Nutrition
+                {
+                    title: 'Definition of Therapeutic Nutrition · تعريف التغذية العلاجية',
+                    cards: [
+                        card('Therapeutic Nutrition · التغذية العلاجية', [
+                            { en: 'The <span class="highlight-text">modification of the nutrients</span> or other aspects of a normal diet to meet a person\'s nutritional needs during an illness to support the body\'s immune system and healing systems.', ar: '<span class="highlight-text">تعديل العناصر الغذائية</span> أو الجوانب الأخرى للنظام الغذائي العادي لتلبية الاحتياجات الغذائية للشخص أثناء المرض لدعم جهاز المناعة وأنظمة الشفاء في الجسم.' }
+                        ], 'التغذية العلاجية:')
+                    ]
+                },
+                // 7. Medical Conditions Treated
+                {
+                    title: 'Medical Conditions Treated with Therapeutic Nutrition · الحالات الطبية',
+                    cards: [
+                        card('Conditions Treated · الحالات التي تُعالج', [
+                            { en: '<span class="highlight-text">Cancer</span>: nutrition can be used to support cancer treatment and improve patient outcomes.', ar: '<span class="highlight-text">السرطان</span>: يمكن استخدام التغذية لدعم علاج السرطان وتحسين نتائج المرضى.' },
+                            { en: '<span class="highlight-text">Heart disease</span>: therapeutic nutrition can help manage heart disease risk factors and improve heart health.', ar: '<span class="highlight-text">أمراض القلب</span>: يمكن أن تساعد التغذية العلاجية في إدارة عوامل خطر أمراض القلب وتحسين صحة القلب.' },
+                            { en: '<span class="highlight-text">Diabetes</span>: therapeutic nutrition can help manage blood sugar levels and reduce the risk of diabetes-related complications.', ar: '<span class="highlight-text">مرض السكري</span>: يمكن أن تساعد التغذية العلاجية في إدارة مستويات السكر في الدم وتقليل خطر المضاعفات المرتبطة بالسكري.' },
+                            { en: '<span class="highlight-text">Kidney disease</span>: therapeutic nutrition can help manage kidney disease and slow its progression.', ar: '<span class="highlight-text">أمراض الكلى</span>: يمكن أن تساعد التغذية العلاجية في إدارة مرض الكلى وإبطاء تقدمه.' },
+                            { en: '<span class="highlight-text">Digestive disorders</span>: therapeutic nutrition can be used to manage digestive disorders.', ar: '<span class="highlight-text">اضطرابات الجهاز الهضمي</span>: يمكن استخدام التغذية العلاجية لإدارة اضطرابات الجهاز الهضمي.' },
+                            { en: '<span class="highlight-text">Eating disorders</span>: therapeutic nutrition can be used to support recovery from eating disorders.', ar: '<span class="highlight-text">اضطرابات الأكل</span>: يمكن استخدام التغذية العلاجية لدعم التعافي من اضطرابات الأكل.' },
+                            { en: '<span class="highlight-text">Other medical conditions</span> such as neurological disorders and autoimmune disease.', ar: '<span class="highlight-text">حالات طبية أخرى</span> مثل الاضطرابات العصبية وأمراض المناعة الذاتية.' }
+                        ], 'الحالات الطبية:')
+                    ]
+                },
+                // 8. Types of Therapeutic Diets
+                {
+                    title: 'Types of Therapeutic Diets · أنواع الحميات العلاجية',
+                    cards: [
+                        card('1. Texture Modification · تعديل القوام', [
+                            { en: '<span class="highlight-text">Clear liquid diet</span> · نظام غذائي سائل صافي', ar: '<span class="highlight-text">نظام غذائي سائل صافي</span>' },
+                            { en: '<span class="highlight-text">Full liquid diet</span> · نظام غذائي سائل كامل', ar: '<span class="highlight-text">نظام غذائي سائل كامل</span>' },
+                            { en: '<span class="highlight-text">Mechanical soft diet</span> · نظام غذائي طري ميكانيكياً', ar: '<span class="highlight-text">نظام غذائي طري ميكانيكياً</span>' }
+                        ], 'تعديل القوام:'),
+                        card('Texture Modification Examples · أمثلة تعديل القوام', [
+                            { en: 'Clear liquid diet: clear soup, broth.', ar: 'نظام غذائي سائل صافي: حساء صافي، مرق.' },
+                            { en: 'Full liquid diet: creamy soup, milk, semolina, fruit.', ar: 'نظام غذائي سائل كامل: حساء كريمي، حليب، سيمولينا، فواكه.' },
+                            { en: 'Mechanical soft diet: minced meat, mashed potatoes, well-cooked vegetables.', ar: 'نظام غذائي طري ميكانيكياً: لحم مفروم، بطاطس مهروسة، خضروات مطهية جيداً.' }
+                        ], 'أمثلة تعديل القوام:'),
+                        card('2. Nutrient Modifications · تعديل العناصر الغذائية', [
+                            { en: '<span class="highlight-text">Diabetic or calorie-controlled diet (ADA)</span>: control calories, carbohydrates, protein, and fat intake in balanced amounts.', ar: '<span class="highlight-text">حمية مرضى السكري أو الحمية المتحكم فيها بالسعرات (ADA)</span>: التحكم في السعرات والكربوهيدرات والبروتين والدهون بكميات متوازنة.' },
+                            { en: '<span class="highlight-text">Low Sodium (LS) diet</span>: limits salt and salty foods; used for edema, high blood pressure, heart disease, liver disease, or first stages of kidney disease.', ar: '<span class="highlight-text">حمية قليلة الصوديوم</span>: تحد من الملح والأطعمة المالحة؛ تستخدم للوذمة وارتفاع ضغط الدم وأمراض القلب والكبد أو المراحل الأولى من أمراض الكلى.' },
+                            { en: '<span class="highlight-text">Low fat/low cholesterol diet</span>: used to reduce fat levels and/or treat medical conditions that interfere with how the body uses fat such as diseases of the liver, gallbladder, or pancreas. Limits fat to 50 grams or no more than 30% calories derived from fat. It is low in total fat and saturated fats and contains approximately 250-300 mg of cholesterol.', ar: '<span class="highlight-text">حمية قليلة الدهون/الكوليسترول</span>: تُستخدم لتقليل مستويات الدهون و/أو علاج الحالات الطبية التي تؤثر على كيفية استخدام الجسم للدهون مثل أمراض الكبد أو المرارة أو البنكرياس. تحد من الدهون إلى 50 جراماً أو لا يزيد عن 30% من السعرات المستمدة من الدهون. وهي قليلة في إجمالي الدهون والدهون المشبعة وتحتوي على حوالي 250-300 ملغ من الكوليسترول.' },
+                            { en: '<span class="highlight-text">High fiber diet</span>: prescribed for prevention or treatment of gastrointestinal issues; fiber from fruits, legumes, vegetables, whole breads, and cereals.', ar: '<span class="highlight-text">حمية عالية الألياف</span>: توصف للوقاية من أو علاج مشاكل الجهاز الهضمي؛ الألياف من الفواكه والبقوليات والخضروات والخبز الكامل والحبوب.' },
+                            { en: '<span class="highlight-text">Renal diet</span>: for renal/kidney; individualized depending on dialysis; restricts sodium, potassium, fluid, and protein.', ar: '<span class="highlight-text">حمية الكلى</span>: للكلى؛ فردية حسب غسيل الكلى؛ تحد من الصوديوم والبوتاسيوم والسوائل والبروتين.' }
+                        ], 'تعديل العناصر الغذائية:'),
+                        card('High Fiber Foods · أطعمة عالية الألياف', [
+                            { en: 'Chia seeds, flaxseed, popcorn, oats, almonds, beans, whole wheat pasta, split peas, lentils, chickpeas, sunflower seeds, avocado, raspberries, whole wheat bread, green peas.', ar: 'بذور الشيا، بذور الكتان، الفشار، الشوفان، اللوز، الفاصوليا، المعكرونة المصنوعة من القمح الكامل، البازلاء المشقوقة، العدس، الحمص، بذور دوار الشمس، الأفوكادو، التوت، خبز القمح الكامل، البازلاء الخضراء.' }
+                        ], 'أطعمة عالية الألياف:'),
+                        card('3. Food Allergy Modification · تعديل حساسية الطعام', [
+                            { en: 'Foods implicated with allergies are <span class="highlight-text">strictly eliminated</span> from the diet.', ar: 'الأطعمة المرتبطة بالحساسية <span class="highlight-text">تُستبعد تماماً</span> من النظام الغذائي.' },
+                            { en: 'Most common allergens: <span class="highlight-text">milk, egg, soy, fish, and shellfish</span>.', ar: 'مسببات الحساسية الأكثر شيوعاً: <span class="highlight-text">الحليب، البيض، الصويا، الأسماك، والمحار</span>.' }
+                        ], 'تعديل حساسية الطعام:'),
+                        card('4. Tube Feedings · التغذية الأنبوبية', [
+                            { en: 'Used for patients who <span class="highlight-text">cannot take adequate food or fluids by mouth</span>.', ar: 'تستخدم للمرضى الذين <span class="highlight-text">لا يستطيعون تناول الطعام أو السوائل بشكل كافٍ عن طريق الفم</span>.' },
+                            { en: 'All or parts of nutritional needs are met through tube feedings.', ar: 'يتم تلبية كل أو جزء من الاحتياجات الغذائية من خلال التغذية الأنبوبية.' }
+                        ], 'التغذية الأنبوبية:')
+                    ]
+                },
+                // 9. Nutrition Therapy Process
+                {
+                    title: 'Nutrition Therapy Process · عملية العلاج التغذوي',
+                    cards: [
+                        card('The Process · العملية', [
+                            { en: 'The nutrition therapy process consists of <span class="highlight-text">four distinct but interrelated steps</span>:', ar: 'تتكون عملية العلاج التغذوي من <span class="highlight-text">أربع خطوات متميزة ولكن مترابطة</span>:' },
+                            { en: '1. <span class="highlight-text">Nutrition assessment</span>. · تقييم التغذية', ar: '1. <span class="highlight-text">تقييم التغذية</span>.' },
+                            { en: '2. <span class="highlight-text">Nutrition diagnosis</span>. · تشخيص التغذية', ar: '2. <span class="highlight-text">تشخيص التغذية</span>.' },
+                            { en: '3. <span class="highlight-text">Nutrition intervention</span>. · التدخل الغذائي', ar: '3. <span class="highlight-text">التدخل الغذائي</span>.' },
+                            { en: '4. <span class="highlight-text">Nutrition monitoring and evaluation</span>. · مراقبة وتقييم التغذية', ar: '4. <span class="highlight-text">مراقبة وتقييم التغذية</span>.' },
+                            { en: '<span class="highlight-text">Documentation</span> is equally important and the process cannot be complete without it.', ar: '<span class="highlight-text">التوثيق</span> مهم بنفس القدر ولا يمكن أن تكتمل العملية بدونه.' }
+                        ], 'العملية:'),
+                        card('Assessment & Diagnosis · التقييم والتشخيص', [
+                            { en: '<span class="highlight-text">Nutritional Assessment</span>: Collect timely and appropriate data. Interpret data with evidence-based standard documents.', ar: '<span class="highlight-text">التقييم الغذائي</span>: جمع البيانات في الوقت المناسب وبشكل مناسب. تفسير البيانات باستخدام وثائق معيارية قائمة على الأدلة.' },
+                            { en: '<span class="highlight-text">Nutritional Diagnosis</span>: Identify and label the problem. Determine contributing factors. Cluster signs and symptoms defining characteristics.', ar: '<span class="highlight-text">التشخيص الغذائي</span>: تحديد وتصنيف المشكلة. تحديد العوامل المساهمة. تجميع العلامات والأعراض المميزة.' }
+                        ], 'التقييم والتشخيص:'),
+                        card('Intervention & Monitoring · التدخل والمراقبة', [
+                            { en: '<span class="highlight-text">Nutritional Intervention</span>: Plan nutrition intervention. Formulate goals and determine a plan of action. Implement nutritional intervention. Provide care.', ar: '<span class="highlight-text">التدخل الغذائي</span>: تخطيط التدخل الغذائي. صياغة الأهداف وتحديد خطة العمل. تنفيذ التدخل الغذائي. تقديم الرعاية.' },
+                            { en: '<span class="highlight-text">Nutritional Monitoring and Evaluation</span>: Monitor progress. Measure outcome indicators. Evaluate outcomes.', ar: '<span class="highlight-text">مراقبة وتقييم التغذية</span>: مراقبة التقدم. قياس مؤشرات النتائج. تقييم النتائج.' }
+                        ], 'التدخل والمراقبة:')
+                    ]
+                },
+                // 10. Nutritional Assessment
+                {
+                    title: 'Nutritional Assessment · التقييم الغذائي',
+                    cards: [
+                        card('Definition & Importance · التعريف والأهمية', [
+                            { en: 'A <span class="highlight-text">systematic evaluation</span> of a person\'s food intake, body measurements, clinical condition, and relevant laboratory findings to determine nutritional status.', ar: '<span class="highlight-text">تقييم منهجي</span> لتناول الشخص للطعام وقياسات الجسم والحالة السريرية والنتائج المختبرية ذات الصلة لتحديد الحالة الغذائية.' },
+                            { en: 'Helps determine whether the person is <span class="highlight-text">well-nourished, undernourished, or over nourished</span>.', ar: 'يساعد في تحديد ما إذا كان الشخص <span class="highlight-text">جيد التغذية أو يعاني من سوء التغذية أو الإفراط في التغذية</span>.' },
+                            { en: 'Enables <span class="highlight-text">early intervention</span> and prevention of complications.', ar: 'يمكن من <span class="highlight-text">التدخل المبكر</span> والوقاية من المضاعفات.' }
+                        ], 'التعريف والأهمية:'),
+                        card('Main Points of Importance · نقاط الأهمية الرئيسية', [
+                            { en: '1. Early Detection of Malnutrition · الكشف المبكر عن سوء التغذية', ar: '1. الكشف المبكر عن سوء التغذية' },
+                            { en: '2. Guides Treatment Planning · يوجه تخطيط العلاج', ar: '2. يوجه تخطيط العلاج' },
+                            { en: '3. Monitors Health Progress · يراقب التقدم الصحي', ar: '3. يراقب التقدم الصحي' },
+                            { en: '4. Prevents Disease Complications · يمنع مضاعفات المرض', ar: '4. يمنع مضاعفات المرض' },
+                            { en: '5. Promotes Growth and Development · يعزز النمو والتطور', ar: '5. يعزز النمو والتطور' },
+                            { en: '6. Supports Health Education and Policy · يدعم التثقيف الصحي والسياسات', ar: '6. يدعم التثقيف الصحي والسياسات' }
+                        ], 'نقاط الأهمية:'),
+                        card('Methods of Nutrition Assessment · طرق تقييم التغذية', [
+                            { en: '1. <span class="highlight-text">Medical History</span> · التاريخ المرضي', ar: '1. <span class="highlight-text">التاريخ المرضي</span>' },
+                            { en: '2. <span class="highlight-text">Physical Examination</span> · الفحص السريري', ar: '2. <span class="highlight-text">الفحص السريري</span>' },
+                            { en: '3. <span class="highlight-text">Anthropometric Assessment</span> · التقييم الأنثروبومتري', ar: '3. <span class="highlight-text">التقييم الأنثروبومتري</span>' },
+                            { en: '4. <span class="highlight-text">Biochemical Assessment</span> · التقييم الكيميائي الحيوي', ar: '4. <span class="highlight-text">التقييم الكيميائي الحيوي</span>' },
+                            { en: '5. <span class="highlight-text">Dietary Assessment</span> · تقييم النظام الغذائي', ar: '5. <span class="highlight-text">تقييم النظام الغذائي</span>' }
+                        ], 'طرق التقييم:')
+                    ]
+                },
+                // 11. Medical History & Physical Examination
+                {
+                    title: 'Medical History & Physical Examination · التاريخ المرضي والفحص',
+                    cards: [
+                        card('Medical History · التاريخ المرضي', [
+                            { en: '<span class="highlight-text">Definition & Purpose</span>: Structured interview to collect information that affects nutritional status, intake, absorption, metabolism, and requirements.', ar: '<span class="highlight-text">التعريف والغرض</span>: مقابلة منظمة لجمع المعلومات التي تؤثر على الحالة الغذائية والمدخول والامتصاص والتمثيل الغذائي والاحتياجات.' },
+                            { en: '<span class="highlight-text">Dietary history</span>: Current typical day meals, snacks, beverages, portion sizes. Special diets (vegetarian, vegan, ketogenic, cultural).', ar: '<span class="highlight-text">التاريخ الغذائي</span>: الوجبات اليومية المعتادة، الوجبات الخفيفة، المشروبات، أحجام الحصص. الحميات الخاصة (نباتي، كيتوني، ثقافي).' },
+                            { en: '<span class="highlight-text">Gastrointestinal history</span>: Nausea, vomiting, diarrhea, constipation, steatorrhea. Surgeries: gastrectomy, bowel resection, bariatric surgery, cholecystectomy.', ar: '<span class="highlight-text">تاريخ الجهاز الهضمي</span>: الغثيان، القيء، الإسهال، الإمساك، البراز الدهني. الجراحات: استئصال المعدة، استئصال الأمعاء، جراحة السمنة، استئصال المرارة.' },
+                            { en: '<span class="highlight-text">Past medical history</span>: Chronic diseases: diabetes, CKD, liver disease, cancer, HIV, thyroid disorders. Recent infections/hospitalizations.', ar: '<span class="highlight-text">التاريخ الطبي السابق</span>: الأمراض المزمنة: السكري، أمراض الكلى المزمنة، أمراض الكبد، السرطان، فيروس نقص المناعة البشرية، اضطرابات الغدة الدرقية. العدوى/الإدخالات المستشفى الحديثة.' },
+                            { en: '<span class="highlight-text">Medication & substance use</span>: Corticosteroids (weight gain, catabolism), SSRIs (appetite changes), metformin (B12 risk), diuretics (electrolytes), anticonvulsants (vitamin D metabolism).', ar: '<span class="highlight-text">الأدوية واستخدام المواد</span>: الكورتيكوستيرويدات (زيادة الوزن، هدم الأنسجة)، مثبطات امتصاص السيروتونين (تغيرات الشهية)، الميتفورمين (خطر نقص B12)، مدرات البول (الكهارل)، مضادات الاختلاج (استقلاب فيتامين D).' }
+                        ], 'التاريخ المرضي:'),
+                        card('Physical Examination · الفحص السريري', [
+                            { en: '<span class="highlight-text">Purpose</span>: Detect clinical signs of nutrient deficiencies/excesses and complications of malnutrition. Systematic approach (head-to-toe):', ar: '<span class="highlight-text">الغرض</span>: اكتشاف العلامات السريرية لنقص/زيادة العناصر الغذائية ومضاعفات سوء التغذية. نهج منهجي (من الرأس إلى القدم):' },
+                            { en: '<span class="highlight-text">General</span>: Alertness, posture, body habitus (cachexia vs obesity). Measure and compare with history (e.g., reported vs measured weight).', ar: '<span class="highlight-text">عام</span>: اليقظة، الوضعية، بنية الجسم (الدنف مقابل السمنة). القياس والمقارنة مع التاريخ المرضي (مثل الوزن المبلغ عنه مقابل الوزن المقاس).' },
+                            { en: '<span class="highlight-text">Vital signs</span>: Temperature, heart rate, blood pressure, respiratory rate — fever/infection, dehydration.', ar: '<span class="highlight-text">العلامات الحيوية</span>: درجة الحرارة، معدل ضربات القلب، ضغط الدم، معدل التنفس — الحمى/العدوى، الجفاف.' },
+                            { en: '<span class="highlight-text">Skin</span>: Dryness, flaking, hyperpigmentation, ecchymoses. Petechiae (vitamin C), hyperkeratosis (vitamin A deficiency), pellagra-like rash (niacin).', ar: '<span class="highlight-text">الجلد</span>: الجفاف، التقشر، فرط التصبغ، الكدمات. النمشات (فيتامين C)، فرط التقرن (نقص فيتامين A)، طفح يشبه البلاغرا (النياسين).' },
+                            { en: '<span class="highlight-text">Hair</span>: Sparse, brittle hair (protein or essential fatty acid deficiency).', ar: '<span class="highlight-text">الشعر</span>: شعر خفيف وهش (نقص البروتين أو الأحماض الدهنية الأساسية).' },
+                            { en: '<span class="highlight-text">Eyes</span>: Conjunctival pallor (anemia), Bitot spots/keratomalacia (vitamin A).', ar: '<span class="highlight-text">العيون</span>: شحوب الملتحمة (فقر الدم)، بقع بيتو/تلين القرنية (فيتامين A).' },
+                            { en: '<span class="highlight-text">Mouth</span>: Glossitis (B2, B3, B6, B12 deficiency), swollen/bleeding gums (vitamin C), dental caries.', ar: '<span class="highlight-text">الفم</span>: التهاب اللسان (نقص B2, B3, B6, B12)، لثة متورمة/نازفة (فيتامين C)، تسوس الأسنان.' },
+                            { en: '<span class="highlight-text">Musculoskeletal</span>: Muscle wasting (temporal, deltoid, quadriceps), decreased tone. Rickets signs: bowed legs, widened wrists — vitamin D/calcium deficiency. Weak grip strength.', ar: '<span class="highlight-text">الجهاز العضلي الهيكلي</span>: ضمور العضلات (الصدغية، الدالية، الرباعية)، انخفاض التوتر العضلي. علامات الكساح: تقوس الساقين، اتساع الرسغين — نقص فيتامين D/الكالسيوم. ضعف قوة القبضة.' },
+                            { en: '<span class="highlight-text">Abdomen</span>: Hepatomegaly (fatty liver, storage diseases), ascites (protein-energy malnutrition or liver disease).', ar: '<span class="highlight-text">البطن</span>: تضخم الكبد (الكبد الدهني، أمراض التخزين)، الاستسقاء (سوء التغذية البروتيني-الطاقي أو أمراض الكبد).' },
+                            { en: '<span class="highlight-text">Extremities</span>: Peripheral edema (protein deficiency, renal/cardiac disease), capillary refill.', ar: '<span class="highlight-text">الأطراف</span>: الوذمة المحيطية (نقص البروتين، أمراض الكلى/القلب)، إعادة الامتلاء الشعري.' }
+                        ], 'الفحص السريري:')
+                    ]
+                },
+                // 12. Anthropometric, Biochemical & Dietary Assessment
+                {
+                    title: 'Anthropometric, Biochemical & Dietary Assessment · التقييمات',
+                    cards: [
+                        card('Anthropometric Assessment · التقييم الأنثروبومتري', [
+                            { en: 'Involves measuring body size and evaluating changes over time.', ar: 'يتضمن قياس حجم الجسم وتقييم التغيرات بمرور الوقت.' },
+                            { en: '<span class="highlight-text">Weight and height</span>: Measure and record accurately. Compare current weight with previous measurements — unintentional weight loss may indicate nutritional risk even when the patient is not visibly underweight.', ar: '<span class="highlight-text">الوزن والطول</span>: قم بالقياس والتسجيل بدقة. قارن الوزن الحالي بالقياسات السابقة — فقدان الوزن غير المقصود قد يشير إلى خطر غذائي حتى عندما لا يبدو المريض نحيفاً بشكل واضح.' },
+                            { en: '<span class="highlight-text">Body mass index (BMI)</span>: BMI = weight in kg / (height in metres)². Must be interpreted alongside weight history, food intake, and clinical findings. It should not be used alone to judge nutritional status.', ar: '<span class="highlight-text">مؤشر كتلة الجسم (BMI)</span>: BMI = الوزن بالكيلوجرام / (الطول بالأمتار)². يجب تفسيره إلى جانب تاريخ الوزن وتناول الطعام والنتائج السريرية. لا ينبغي استخدامه وحده للحكم على الحالة الغذائية.' },
+                            { en: '<span class="highlight-text">Percentage weight loss</span>: (previous weight - current weight) / previous weight × 100.', ar: '<span class="highlight-text">نسبة فقدان الوزن</span>: (الوزن السابق - الوزن الحالي) / الوزن السابق × 100.' }
+                        ], 'التقييم الأنثروبومتري:'),
+                        card('Biochemical Assessment · التقييم الكيميائي الحيوي', [
+                            { en: 'Laboratory investigations provide additional information when selected according to the patient\'s history and clinical condition.', ar: 'التحقيقات المخبرية توفر معلومات إضافية عند اختيارها وفقاً لتاريخ المريض وحالته السريرية.' },
+                            { en: 'Can help investigate <span class="highlight-text">suspected deficiencies, metabolic disturbances</span>, or other problems affecting nutritional care.', ar: 'يمكن أن تساعد في التحقيق في <span class="highlight-text">النقص المشتبه به، الاضطرابات الأيضية</span>، أو مشاكل أخرى تؤثر على الرعاية الغذائية.' },
+                            { en: 'Results must be interpreted with the <span class="highlight-text">other assessment findings</span>.', ar: 'يجب تفسير النتائج مع <span class="highlight-text">نتائج التقييم الأخرى</span>.' }
+                        ], 'التقييم الكيميائي الحيوي:'),
+                        card('Dietary Assessment · تقييم النظام الغذائي', [
+                            { en: 'Examines <span class="highlight-text">what the patient eats and drinks</span>, how much is consumed, and what prevents adequate intake.', ar: 'يفحص <span class="highlight-text">ما يأكله ويشربه المريض</span>، وكمية ما يتم تناوله، وما يمنع تناول الطعام بشكل كافٍ.' }
+                        ], 'تقييم النظام الغذائي:')
+                    ]
+                },
+                // 13. Dietary Assessment Methods
+                {
+                    title: 'Dietary Assessment Methods · طرق تقييم النظام الغذائي',
+                    cards: [
+                        tableCard(
+                            'Methods of Dietary Assessment · طرق تقييم النظام الغذائي',
+                            `
+                            <table class="info-table">
+                                <thead><tr>
+                                    <th>${cell('Method', 'الطريقة')}</th>
+                                    <th>${cell('Description', 'الوصف')}</th>
+                                    <th>${cell('Main limitation', 'القيد الرئيسي')}</th>
+                                </tr></thead>
+                                <tbody>
+                                    <tr>
+                                        <td>${cell('24-hour recall', 'استدعاء 24 ساعة')}</td>
+                                        <td>${cell('The patient describes foods and drinks consumed during the previous day', 'يصف المريض الأطعمة والمشروبات التي تناولها خلال اليوم السابق')}</td>
+                                        <td>${cell('One day may not represent usual intake', 'يوم واحد قد لا يمثل المدخول المعتاد')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>${cell('Food record', 'سجل الطعام')}</td>
+                                        <td>${cell('Foods and drinks are recorded over several days', 'يتم تسجيل الأطعمة والمشروبات على مدى عدة أيام')}</td>
+                                        <td>${cell('Requires accurate recording', 'يتطلب تسجيلاً دقيقاً')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>${cell('Food-frequency questionnaire', 'استبيان تكرار الطعام')}</td>
+                                        <td>${cell('Asks how often selected foods are usually consumed', 'يسأل عن عدد المرات التي يتم فيها استهلاك أطعمة مختارة عادةً')}</td>
+                                        <td>${cell('Provides less detail about exact intake', 'يوفر تفاصيل أقل عن المدخول الدقيق')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>${cell('Observed intake chart', 'مخطط المدخول المراقب')}</td>
+                                        <td>${cell('Staff record how much food and fluid a patient actually consumes', 'يسجل الموظفون كمية الطعام والسوائل التي يستهلكها المريض بالفعل')}</td>
+                                        <td>${cell('Accuracy depends on consistent documentation', 'تعتمد الدقة على التوثيق المتسق')}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            `,
+                            'طرق تقييم النظام الغذائي'
+                        )
+                    ]
+                },
+                // 14. Screening & Nursing Responsibilities
+                {
+                    title: 'Screening & Nursing Responsibilities · الفحص ومسؤوليات التمريض',
+                    cards: [
+                        card('Adult Screening Should Consider · يجب أن يراعي فحص البالغين', [
+                            { en: '<span class="highlight-text">Low BMI</span>. · انخفاض مؤشر كتلة الجسم', ar: '<span class="highlight-text">انخفاض مؤشر كتلة الجسم</span>.' },
+                            { en: '<span class="highlight-text">Unintentional weight loss</span>. · فقدان الوزن غير المقصود', ar: '<span class="highlight-text">فقدان الوزن غير المقصود</span>.' },
+                            { en: '<span class="highlight-text">Reduced intake</span> and how long it has continued. · انخفاض المدخول ومدى استمراره', ar: '<span class="highlight-text">انخفاض المدخول</span> ومدى استمراره.' },
+                            { en: 'Patients who have eaten <span class="highlight-text">little or nothing for more than five days</span>.', ar: 'المرضى الذين تناولوا <span class="highlight-text">القليل أو لا شيء لأكثر من خمسة أيام</span>.' },
+                            { en: 'A patient may be at risk <span class="highlight-text">before becoming visibly underweight</span>.', ar: 'قد يكون المريض في خطر <span class="highlight-text">قبل أن يصبح نحيفاً بشكل واضح</span>.' },
+                            { en: 'Patients with severe undernutrition or prolonged minimal intake also require <span class="highlight-text">clinical review before feeding is rapidly increased</span> because of possible refeeding complications.', ar: 'المرضى الذين يعانون من سوء تغذية شديد أو مدخول ضئيل لفترة طويلة يحتاجون أيضاً إلى <span class="highlight-text">مراجعة سريرية قبل زيادة التغذية بسرعة</span> بسبب مضاعفات إعادة التغذية المحتملة.' }
+                        ], 'فحص البالغين:'),
+                        card('Nursing Responsibilities · مسؤوليات التمريض', [
+                            { en: '<span class="highlight-text">Assessment</span>: Complete nutritional screening according to local policy. Measure and document weight and height accurately. Ask about recent weight loss and reduced intake. Observe difficulties with eating and drinking. Report concerning findings promptly.', ar: '<span class="highlight-text">التقييم</span>: أكمل فحص التغذية وفقاً للسياسة المحلية. قم بقياس وتسجيل الوزن والطول بدقة. اسأل عن فقدان الوزن الأخير وانخفاض المدخول. لاحظ صعوبات الأكل والشرب. أبلغ عن النتائج المقلقة على الفور.' },
+                            { en: '<span class="highlight-text">Care and referral</span>: Assist patients who cannot eat independently. Maintain accurate food and fluid intake records. Communicate barriers to adequate nutrition. Refer patients for comprehensive assessment when indicated. Contribute to an individualized care plan with the healthcare team.', ar: '<span class="highlight-text">الرعاية والإحالة</span>: ساعد المرضى الذين لا يستطيعون الأكل بشكل مستقل. حافظ على سجلات دقيقة لتناول الطعام والسوائل. تواصل بشأن الحواجز التي تحول دون التغذية الكافية. أحل المرضى للتقييم الشامل عند الحاجة. ساهم في خطة رعاية فردية مع فريق الرعاية الصحية.' },
+                            { en: '<span class="highlight-text">Evaluation</span>: Monitor changes in intake, weight, physical findings, and functional status to determine whether the nutritional plan is effective.', ar: '<span class="highlight-text">التقييم</span>: راقب التغيرات في المدخول والوزن والنتائج الفيزيائية والحالة الوظيفية لتحديد ما إذا كانت الخطة الغذائية فعالة.' }
+                        ], 'مسؤوليات التمريض:')
+                    ]
+                }
+            ]
+        };
+
+        // ================================================================
+        //  BUILD APP
+        // ================================================================
+        const slidesData = { nutrition: nutritionData };
+        const sectionOrder = ['nutrition'];
+
+        function renderSlideContent(slide) {
+            if (slide.cards && Array.isArray(slide.cards)) {
+                return createSlideHTML(slide.title, slide.cards.join(''));
+            }
+            return createSlideHTML(slide.title, '');
+        }
+
+        function buildApp() {
+            const tabsContainer = document.getElementById('tabsContainer');
+            const sectionsContainer = document.getElementById('sectionsContainer');
+
+            sectionOrder.forEach((secId) => {
+                const sec = slidesData[secId];
+                if (!sec) return;
+
+                const tab = document.createElement('button');
+                tab.className = 'tab-btn active';
+                tab.innerHTML = `<span class="en">${sec.titleEn}</span><span class="ar">${sec.titleAr}</span>`;
+                tabsContainer.appendChild(tab);
+
+                const cardEl = document.createElement('div');
+                cardEl.className = 'card active';
+                cardEl.id = `section-${secId}`;
+
+                const slidesHTML = sec.slides.map(s => renderSlideContent(s)).join('');
+                const totalSlides = sec.slides.length;
+
+                cardEl.innerHTML = `
+                    <h2>${sec.titleEn} · ${sec.titleAr}</h2>
+                    <div class="slide-container" id="slideContainer-${secId}">
+                        <div class="slide-progress">
+                            <span style="font-weight:600;">التقدم</span>
+                            <div class="bar"><div class="fill" style="width:0%;"></div></div>
+                            <span class="count">1 / ${totalSlides}</span>
+                        </div>
+                        ${slidesHTML}
+                        <div class="slide-nav">
+                            <button class="btn-nav prev" onclick="goToSlide('${secId}', 'slideContainer-${secId}', slideState['${secId}'].current - 1)">السابق</button>
+                            <button class="btn-nav next primary" onclick="goToSlide('${secId}', 'slideContainer-${secId}', slideState['${secId}'].current + 1)">التالي</button>
+                        </div>
+                    </div>
+                `;
+                sectionsContainer.appendChild(cardEl);
+
+                initSlideState(secId, totalSlides);
+                setTimeout(() => renderSlide(secId, `slideContainer-${secId}`), 50);
+            });
+        }
+
+        // ================================================================
+        //  INIT
+        // ================================================================
+        applyTheme(localStorage.getItem('theme') || 'dark');
+        buildApp();
+
+        window.goToSlide = goToSlide;
+        window.slideState = slideState;
+        window.toggleTheme = toggleTheme;
+        window.toggleCardTranslation = toggleCardTranslation;
+    </script>
+</body>
+</html>
